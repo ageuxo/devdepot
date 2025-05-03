@@ -16,5 +16,8 @@ export const auth = betterAuth({
     database: {
       dialect,
       type: "mysql"
+    },
+    emailAndPassword: {
+      enabled: true
     }
 })
