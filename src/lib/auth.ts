@@ -6,7 +6,9 @@ import { createPool } from "mysql2";
 const dialect = new MysqlDialect({
   pool: createPool({
     database: "devdepot",
-    host: "localhost"
+    host: "localhost",
+    user: process.env.DB_USER,
+    password: process.env.DB_PASS
   })
 })
 
