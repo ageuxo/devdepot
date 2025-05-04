@@ -1,4 +1,4 @@
-import { ProjectList } from "./projects";
+import { ProjectList } from "../components/projects";
 
 const projects = [
   {
