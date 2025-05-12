@@ -1,0 +1,96 @@
+body {
+    --bg-colour: rgba(25, 25, 25, 0.5);
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: var(--color-white);
+    background-color: var(--color-gray-800);
+    padding: var(--spacing);
+}
+
+.headerText {
+    font-weight: var(--font-weight-bold);
+    font-size: var(--text-2xl);
+    line-height: var(--tw-leading, var(--text-2xl--line-height));
+}
+
+.signInBox {
+    display: flex;
+    align-items:  flex-end;
+    box-sizing: content-box;
+    background-color: var(--color-gray-800);
+    
+}
+
+.signInBox button {
+    float: right;
+    font-size: small;
+    text-wrap: nowrap;
+    min-width: 40%;
+    background-color: var(--bg-colour);
+    box-sizing: content-box;
+    border-radius: 3%;
+}
+
+.accountBox {
+    position: absolute;
+    right: 5px;
+    background-color: var(--bg-colour);
+    border-radius: 5%;
+    min-width: 20px;
+    min-height: 20px;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--color-gray-800);
+    border-radius: 3%;
+   
+}
+
+.error {
+    color: red;
+    margin: 0 2%;
+}
+
+.status {
+    color: white;
+    margin: 0 2%;
+}
+
+.label {
+    margin-left: 2%;
+    margin-right: auto;
+    padding: 0 1%;
+    background-color: var(--bg-colour);
+    border-radius: 3%;
+}
+
+.submit {
+    border: 1px grey solid;
+    margin: 1% auto 2%;
+    padding: 0% 3%;
+    background-color: var(--bg-colour);
+}
+
+.input {
+    background-color: var(--bg-colour);
+    border: 1px grey solid;
+    margin-left: 3%;
+    max-width: 95%;
+}
+
+.inputerr {
+    border: 1px red solid;
+    margin: 0 2%;
+}
+
+.signUpLink {
+    font-size: 0.8rem;
+    text-align: center;
+    text-decoration: underline;
+}

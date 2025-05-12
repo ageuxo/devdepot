@@ -1,11 +1,14 @@
 import Link from "next/link";
+import AccountTab from "./account";
+import styles from "./header.module.css"
 
 export default function Header() {
   return (
-    <header className="flex items-center justify-between p-4 bg-gray-800 text-white">
-        <Link href="/" className="text-2xl font-bold">
-            <h1 className="text-2xl">Projects</h1>
+    <header className={styles.header}>
+        <Link href="/" className="">
+            <h1 className={styles.headerText}>Projects</h1>
         </Link>
+        <AccountTab />
     </header>
   );
 }

@@ -1,4 +1,5 @@
 import { betterAuth } from "better-auth";
+import { nextCookies } from "better-auth/next-js";
 import { MysqlDialect } from "kysely";
 import { createPool } from "mysql2";
 
@@ -19,5 +20,6 @@ export const auth = betterAuth({
     },
     emailAndPassword: {
       enabled: true
-    }
+    },
+    plugins: [nextCookies()]
 })
