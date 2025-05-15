@@ -1,24 +1,8 @@
 import { Generated, Kysely, MysqlDialect } from "kysely";
 import { createPool } from "mysql2";
+import { DB } from "kysely-codegen";
 
-interface ProjectDatabase {
-    projects: {
-        id: Generated<Number>,
-        name: string,
-        createdAt: Date,
-        createdBy: number,
-        description: string,
-    },
-    user: {
-        id: Generated<Number>,
-        name: string,
-        email: string,
-        createdAt: Date,
-        updatedAt: Date,
-    }
-}
-
-export const db = new Kysely<ProjectDatabase>({
+export const db = new Kysely<DB>({
     dialect: new MysqlDialect({
         pool: createPool({
             database: 'devdepot',

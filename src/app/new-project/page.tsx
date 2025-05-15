@@ -2,6 +2,8 @@ import NewProjectForm from "./newProject";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { db } from "../api/projects/route";
+import { Project } from "kysely-codegen";
+import { Insertable } from "kysely";
 
 export default function NewProjectPage() {
     return (
@@ -11,7 +13,7 @@ export default function NewProjectPage() {
     )
 }
 
-async function createProject({name, description}: {name: String, description: String}) {
+async function createProject(project: Insertable<Project>) {
     'use server';
     const session = await auth.api.getSession({
         headers: await headers()
@@ -25,13 +27,13 @@ async function createProject({name, description}: {name: String, description: St
         );
     }
 
-/*     const createProjectQuery = db
+    const createProjectQuery = db
         .insertInto("projects")
         .values({
-            name,
-            description,
-            createdBy: session.user.id
-        }) */
+            createdBy: session.user.id,
+            name: project.name,
+            description: project.description
+        })
 
     return (
         <div>

@@ -6,7 +6,8 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "kysely-codegen": "kysely-codegen --camel-case --dialect mysql --singularize"
   },
   "dependencies": {
     "better-auth": "^1.2.7",
@@ -25,6 +26,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "15.3.1",
+    "kysely-codegen": "^0.18.5",
     "tailwindcss": "^4",
     "typescript": "^5"
   }
