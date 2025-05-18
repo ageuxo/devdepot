@@ -33,7 +33,7 @@ export default function NewProjectForm() {
                     <h3>You need to be signed in to create a new project.</h3>
                     <p>Please sign in:</p>
                 </div>
-                < SignInTab isPending={false} error={error} />
+                < SignInTab error={error} />
             </>
         )
     }

@@ -2,7 +2,7 @@
 
 import styles from './signup.module.css'
 import { authClient } from '@/lib/auth-client';
-import { redirect } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import {useForm, SubmitHandler} from "react-hook-form";
 
@@ -14,6 +14,8 @@ interface ISignUpForm {
 }
 
 export function SignUpForm() {
+    const router = useRouter();
+
     const {
         register,
         formState: { errors },
@@ -42,7 +44,7 @@ export function SignUpForm() {
                 }
             },
             onSuccess(ctx) {
-                redirect('/');
+                router.push('/');
             }
         })
     };
