@@ -2,6 +2,8 @@
 
 import styles from './signup.module.css'
 import { authClient } from '@/lib/auth-client';
+import { redirect } from 'next/navigation';
+import { useState } from 'react';
 import {useForm, SubmitHandler} from "react-hook-form";
 
 interface ISignUpForm {
@@ -11,23 +13,6 @@ interface ISignUpForm {
     verifyPass: string
 }
 
-const onSubmit: SubmitHandler<ISignUpForm> = async (formData) => {
-    console.log("Submitted:" + JSON.stringify(formData, null, 4))
-    const { data, error } = await authClient.signUp.email({
-        email: formData.email,
-        name: formData.displayname,
-        password: formData.password,
-        callbackURL: '/'
-    }, {
-        onRequest(ctx) {
-            //TODO show loading modal...
-        },
-        onError(ctx) {
-            console.log(ctx.error);
-        },
-    })
-};
-
 export function SignUpForm() {
     const {
         register,
@@ -36,6 +21,31 @@ export function SignUpForm() {
         watch
     } = useForm<ISignUpForm>();
     const password = watch('password');
+
+    let [submitError, setSubmitError] = useState("");
+
+    const onSubmit: SubmitHandler<ISignUpForm> = async (formData) => {
+        const { data, error } = await authClient.signUp.email({
+            email: formData.email,
+            name: formData.displayname,
+            password: formData.password,
+        }, {
+            onRequest(ctx) {
+                //TODO show loading modal...
+            },
+            onError(ctx) {
+                console.log(ctx.error);
+                if (ctx.error.code == "USER_ALREADY_EXISTS") {
+                    setSubmitError(`A user already exists with the email ${formData.email}. Please sign in instead.`);
+                } else {
+                    setSubmitError(ctx.error.message);
+                }
+            },
+            onSuccess(ctx) {
+                redirect('/');
+            }
+        })
+    };
 
     return (
         <form onSubmit={handleSubmit(onSubmit)} key={"sign-up-form"} className={styles.form}>
@@ -109,6 +119,12 @@ export function SignUpForm() {
                     {errors.verifyPass && <p role="alert" className={styles.error}>{errors.verifyPass.message}</p>}
                 </label>
             </div>
+
+            {submitError &&
+                <div className={styles.box}>
+                    <p role='alert' className={styles.error}>{submitError}</p>
+                </div>
+            }
 
             <input className={styles.submit} type="submit" value={"Register"}/>
         </form>
