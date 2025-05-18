@@ -52,7 +52,7 @@ const onSubmit: SubmitHandler<ISignInForm> = async (formData) => {
     })
 }
 
-export function SignInTab({isPending, error}: {isPending: boolean, error: any}) {
+export function SignInTab({error}: { error: any}) {
     const {
             register,
             formState: { errors },
