@@ -5,30 +5,28 @@ import styles from './header.module.css'
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function AccountTab() {
     const {
         data: session,
-        isPending,
-        error,
-        refetch
+        error
     } = authClient.useSession();
 
     const [isExpanded, setIsExpanded] = useState(false);
 
     return (
         <div className={styles.signInBox}>
-            <button onClick={()=>setIsExpanded(!isExpanded)}>{isExpanded ? 'Close' : 'Account'}</button>
+            <button onClick={()=>setIsExpanded(!isExpanded)}>{isExpanded ? 'Close' : session ? session.user.name : "Sign in"}</button>
             <div>
                 {isExpanded &&
                     <div className={styles.accountBox}>
-                        {session ? <AccountInfo name={session.user.name} /> : <SignInTab isPending={isPending} error={error} /> }
+                        {session ? <AccountInfo name={session.user.name} /> : <SignInTab error={error} /> }
                     </div>
                 }
             </div>
         </div>
     )
-    
 }
 
 interface ISignInForm {
@@ -37,13 +35,12 @@ interface ISignInForm {
 }
 
 const onSubmit: SubmitHandler<ISignInForm> = async (formData) => {
-    console.log("Submitted:" + JSON.stringify(formData, null, 4));
-    const { data, error } = await authClient.signIn.email({
+    await authClient.signIn.email({
         email: formData.email,
         password: formData.password,
         callbackURL: '/'
     }, {
-        onRequest(ctx) {
+        onRequest() {
             //TODO show loading modal...
         },
         onError(ctx) {
@@ -93,9 +90,23 @@ export function SignInTab({error}: { error: any}) {
 }
 
 function AccountInfo({name}: {name: string}) {
+    const router = useRouter();
+
+    async function signOut() {
+        await authClient.signOut({
+            fetchOptions: {
+                onSuccess: () => {
+                    router.push('/');
+                    router.refresh();
+                }
+            }
+        });
+    }
+
     return (
-        <>
+        <div className={styles.accountInfo}>
             <span>{name}</span>
-        </>
+            <button className={styles.button} onClick={signOut}>Sign out</button>
+        </div>
     )
 }

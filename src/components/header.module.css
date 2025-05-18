@@ -40,16 +40,26 @@ body {
 .accountBox {
     position: absolute;
     right: 5px;
-    background-color: var(--bg-colour);
+    background-color: var(--color-gray-800);
     border-radius: 5%;
     min-width: 20px;
     min-height: 20px;
 }
 
+.accountInfo {
+    display: flex;
+    flex-direction: column;
+    padding: 0.5rem;
+}
+
+.accountInfo span {
+    text-decoration: underline;
+    margin: auto;
+}
+
 .form {
     display: flex;
     flex-direction: column;
-    background-color: var(--color-gray-800);
     border-radius: 3%;
    
 }
