@@ -33,6 +33,8 @@ body {
     background-color: var(--bg-colour);
     box-sizing: content-box;
     border-radius: 3%;
+    cursor: pointer;
+    border: 1px grey solid;
 }
 
 .accountBox {
