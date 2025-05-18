@@ -106,7 +106,8 @@ function AccountInfo({name}: {name: string}) {
     return (
         <div className={styles.accountInfo}>
             <span>{name}</span>
-            <button className={styles.button} onClick={signOut}>Sign out</button>
+            <Link className={styles.accountLink} href={"/new-project"}>New Project</Link>
+            <button onClick={signOut}>Sign out</button>
         </div>
     )
 }

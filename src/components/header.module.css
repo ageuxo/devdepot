@@ -22,7 +22,6 @@ body {
     align-items:  flex-end;
     box-sizing: content-box;
     background-color: var(--color-gray-800);
-    
 }
 
 .signInBox button {
@@ -54,7 +53,21 @@ body {
 
 .accountInfo span {
     text-decoration: underline;
-    margin: auto;
+    text-align: center;
+    width: 100%;
+    background-color: var(--bg-colour);
+}
+
+.accountLink {
+    font-size: small;
+    text-wrap: nowrap;
+    min-width: 40%;
+    background-color: var(--bg-colour);
+    border-radius: 3%;
+    cursor: pointer;
+    border: 1px grey solid;
+    padding: 0 3%;
+    margin: var(--spacing) auto;
 }
 
 .form {
