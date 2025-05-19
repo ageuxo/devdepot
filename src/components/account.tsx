@@ -6,6 +6,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { BetterFetchError } from "better-auth/react";
 
 export default function AccountTab() {
     const {
@@ -49,7 +50,7 @@ const onSubmit: SubmitHandler<ISignInForm> = async (formData) => {
     })
 }
 
-export function SignInTab({error}: { error: any}) {
+export function SignInTab({error}: { error: BetterFetchError | null}) {
     const {
             register,
             formState: { errors },
