@@ -13,11 +13,11 @@ const projects = [
   },
 ];
 
-export default function Home() {
+export default function Home() { // Make this use database
   return (
     <>
       <main className="flex flex-col items-center padding-24">
-        < ProjectList projects={projects} />
+        < ProjectList />
       </main>
     </>
   );

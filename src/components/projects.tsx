@@ -1,19 +1,10 @@
+import { getProjects } from "@/app/api/projects/route";
+import Link from "next/link";
 
-
-class Project {
-  name: string;
-  link: string;
-  description: string;
-  constructor(name: string, link: string, description: string) {
-    this.name = name;
-    this.link = link;
-    this.description = description;
-  }
-}
-
-export function ProjectList({ projects }: { projects: Project[] }) {
-  const entries = projects.map((project) => (
-    < ProjectCard key={project.name} project={project} />
+export async function ProjectList() {
+  const projects = (await getProjects()).rows;
+  const entries = projects.map((p) => (
+    ProjectCard(p)
   ));
   return (
     <div className="border p-4 rounded shadow m-4 w-11/12">
@@ -23,14 +14,14 @@ export function ProjectList({ projects }: { projects: Project[] }) {
   );
 }
 
-function ProjectCard({ project }: { project: Project }) {
+function ProjectCard(project: { createdAt: Date; createdBy: string; description: string; id: number; name: string; }) {
   return (
     <div className="p-4 border rounded shadow">
       <h2 className="text-xl font-bold">{project.name}</h2>
       <p>{project.description}</p>
-      <a href={project.link} className="text-blue-500" target="_blank">
+      <Link href={'/project/'+ project.id} className="text-blue-500" target="_blank">
         View Project
-      </a>
+      </Link>
     </div>
   );
 }
