@@ -1,13 +1,9 @@
-body {
-    --bg-colour: rgba(25, 25, 25, 0.5);
-}
-
 .title {
     font-weight: bold;
 }
 
 .form {
-    background-color: var(--bg-colour);
+    background-color: var(--backplate-colour);
     max-width: 95%;
     min-width: 40vw;
     margin: auto;
@@ -18,7 +14,7 @@ body {
 }
 
 .box {
-    background-color: var(--bg-colour);
+    background-color: var(--backplate-colour);
     border-radius: 5%;
     min-width: 80%;
     max-width: 100%;

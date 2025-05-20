@@ -1,13 +1,12 @@
 body {
-    --bg-colour: rgba(25, 25, 25, 0.5);
+    --header-bg: var(--color-gray-800);
 }
 
 .header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    color: var(--color-white);
-    background-color: var(--color-gray-800);
+    background-color: var(--header-bg);
     padding: var(--spacing);
 }
 
@@ -21,7 +20,7 @@ body {
     display: flex;
     align-items:  flex-end;
     box-sizing: content-box;
-    background-color: var(--color-gray-800);
+    background-color: var(--header-bg);
 }
 
 .signInBox button {
@@ -29,7 +28,7 @@ body {
     font-size: small;
     text-wrap: nowrap;
     min-width: 40%;
-    background-color: var(--bg-colour);
+    background-color: var(--backplate-colour);
     box-sizing: content-box;
     border-radius: 3%;
     cursor: pointer;
@@ -39,7 +38,7 @@ body {
 .accountBox {
     position: absolute;
     right: 5px;
-    background-color: var(--color-gray-800);
+    background-color: var(--header-bg);
     border-radius: 5%;
     min-width: 20px;
     min-height: 20px;
@@ -55,14 +54,14 @@ body {
     text-decoration: underline;
     text-align: center;
     width: 100%;
-    background-color: var(--bg-colour);
+    background-color: var(--backplate-colour);
 }
 
 .accountLink {
     font-size: small;
     text-wrap: nowrap;
     min-width: 40%;
-    background-color: var(--bg-colour);
+    background-color: var(--backplate-colour);
     border-radius: 3%;
     cursor: pointer;
     border: 1px grey solid;
@@ -91,7 +90,7 @@ body {
     margin-left: 2%;
     margin-right: auto;
     padding: 0 1%;
-    background-color: var(--bg-colour);
+    background-color: var(--backplate-colour);
     border-radius: 3%;
 }
 
@@ -99,11 +98,11 @@ body {
     border: 1px grey solid;
     margin: 1% auto 2%;
     padding: 0% 3%;
-    background-color: var(--bg-colour);
+    background-color: var(--backplate-colour);
 }
 
 .input {
-    background-color: var(--bg-colour);
+    background-color: var(--backplate-colour);
     border: 1px grey solid;
     margin-left: 3%;
     max-width: 95%;
