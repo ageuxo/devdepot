@@ -3,9 +3,14 @@
 import { DB, Project } from "kysely-codegen"
 import { db } from "./route"
 import { FieldName, FieldValues } from "react-hook-form"
-import { ExpressionBuilder, SelectQueryBuilder } from "kysely"
+import { ExpressionBuilder, SelectQueryBuilder, sql } from "kysely"
+import { jsonArrayFrom } from "kysely/helpers/mysql"
 
-
+export interface TagData {
+    name: string,
+    category: string,
+    colour: string
+}
 
 const FilterCheckType = {
     EQUAL: '=',
@@ -23,11 +28,12 @@ interface ColumnFilter<T extends FieldValues> {
 
 const GroupType = {
     AND: 'and',
-    OR: 'or'
+    OR: 'or',
+    EMPTY: 'empty'
 } as const;
 type GroupType = typeof GroupType[keyof typeof GroupType];
 
-interface DBFilter<T extends FieldValues> {
+export interface DBFilter<T extends FieldValues> {
     type: GroupType,
     filters: ColumnFilter<T>[]
 }
@@ -54,16 +60,22 @@ function queryCombiner<T extends FieldValues>(q: ExpressionBuilder<DB, "projects
     }
 }
 
-let testFilter: DBFilter<Project> = {
-    type: GroupType.AND,
-    filters: [
-        {column: 'createdBy', type: '=', value: 'Admin'}
-    ]
-}
-
 export async function getProjects(dbFilter: DBFilter<Project>) {
-    let query = db.selectFrom('projects');
-    query = query.where(q => queryCombiner(q, dbFilter));
+    let query = db.selectFrom(['projects'])
+    // join from user table when projects.createdBy = user.id
+    .innerJoin('user', 'projects.createdBy', 'user.id')
+    .leftJoin('projectTags', 'projects.id', 'projectTags.projectId')
+    .leftJoin('tags', 'projectTags.tagId', 'tags.id')
+    .selectAll('projects')
+    .select([
+        'user.name as createdByName',
+    ])
+    .select(sql<string>`JSON_ARRAYAGG(JSON_OBJECT("name", tags.name, "category", tags.category , "colour", tags.colour))`.as('tags'))
+    
+
+    if (dbFilter.type != GroupType.EMPTY) {
+        query = query.where(q => queryCombiner(q, dbFilter));
+    }
     return await query.execute();
 }
 

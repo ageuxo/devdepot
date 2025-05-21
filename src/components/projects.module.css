@@ -1,0 +1,32 @@
+.card {
+    padding: calc(var(--spacing) * 4);
+    border: 1px solid white;
+    border-radius: var(--spacing);
+    margin-top: var(--spacing);
+    background-color: var(--backplate-colour);
+}
+
+.cardTitle {
+    font-size: var(--text-xl);
+    font-weight: bold;
+    line-height: var(--tw-leading, var(--text-xl--line-height));
+    text-decoration: underline;
+    text-transform: capitalize;
+    display: inline;
+}
+
+.cardHeader {
+    display: flex;
+    justify-content: space-between;
+}
+
+.tags {
+    display: flex;
+}
+
+.tag {
+    margin-left: 0.15rem;
+    padding: 0 0.25rem 0.1rem;
+    border-radius: 0.25rem;
+    text-transform: capitalize;
+}
