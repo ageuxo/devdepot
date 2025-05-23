@@ -1,6 +1,6 @@
 'use client'
 
-import styles from './signup.module.css'
+import styles from "@/components/form.module.css"
 import { authClient } from '@/lib/auth-client';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';

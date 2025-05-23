@@ -1,6 +1,6 @@
 'use client'
 import { useForm, SubmitHandler } from "react-hook-form";
-import styles from "../sign-up/signup.module.css";
+import styles from "@/components/form.module.css";
 import { authClient } from "@/lib/auth-client";
 import { SignInTab } from "@/components/account";
 import { createProject } from "./actions";
@@ -65,7 +65,7 @@ export default function NewProjectForm() {
                     </label>
                 </div>
 
-                <input className={styles.submit} type="submit" />
+                <input className={styles.submit} type="submit" value={"Create"} />
             </form>
     );
 }
