@@ -1,9 +1,9 @@
 'use server'
 
-import { DB, Project } from "kysely-codegen"
+import { DB, Project, Tag } from "kysely-codegen"
 import { db } from "./route"
 import { FieldName, FieldValues } from "react-hook-form"
-import { ExpressionBuilder, SelectQueryBuilder, sql } from "kysely"
+import { ExpressionBuilder, Selectable, SelectQueryBuilder, sql } from "kysely"
 import { jsonArrayFrom } from "kysely/helpers/mysql"
 
 export interface TagData {
@@ -77,5 +77,13 @@ export async function getProjects(dbFilter: DBFilter<Project>) {
         query = query.where(q => queryCombiner(q, dbFilter));
     }
     return await query.execute();
+}
+
+const tagQuery = db
+    .selectFrom('tags')
+    .selectAll();
+
+export async function getAllTags() {
+    return await tagQuery.execute();
 }
 

@@ -1,4 +1,4 @@
-import { Generated, Kysely, MysqlDialect } from "kysely";
+import { Kysely, MysqlDialect } from "kysely";
 import { createPool } from "mysql2";
 import { DB } from "kysely-codegen";
 
@@ -17,7 +17,6 @@ const projectQuery = db
     .selectAll()
     .compile();
 
-export async function getProjects() {
+export async function getAllProjects() {
     return await db.executeQuery(projectQuery);
 }
-
