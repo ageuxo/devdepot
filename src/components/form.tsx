@@ -1,12 +1,13 @@
+import { UseFormRegister } from 'react-hook-form';
 import styles from './form.module.css';
+import { INewProject } from '@/app/new-project/page';
 
-export default function TagSelector({ tags }: {tags: { name: string, category: string, colour: string}[]}) {
-    console.log(tags)
+export default function TagSelector({ tags, formRegister }: {tags: { id: number, name: string, category: string, colour: string}[], formRegister: UseFormRegister<INewProject> }) {
 
-    const tagButtons = tags.map((t: { name: string, category: string, colour: string})=> {
+    const tagButtons = tags.map((t: { id: number, name: string, category: string, colour: string})=> {
         return (
             <label key={t.name} className={styles.tag} style={{backgroundColor: t.colour}} >
-                <input type='checkbox' value={t.name} />
+                <input type='checkbox' value={t.name} {...formRegister(`tags.${t.id}`) } />
                 {t.name}
             </label>
         );
@@ -17,10 +18,6 @@ export default function TagSelector({ tags }: {tags: { name: string, category: s
             <div className={styles.label} >
                 Project Tags:<br />
                 <div className={styles.tagSelectorBox} >
-                    {tagButtons}
-                    {tagButtons}
-                    {tagButtons}
-                    {tagButtons}
                     {tagButtons}
                 </div>
             </div>
