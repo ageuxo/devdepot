@@ -1,8 +1,6 @@
-import { Control, useFieldArray } from 'react-hook-form';
 import styles from './form.module.css';
-import { INewProject } from '@/app/new-project/page';
 
-export default function TagSelector({ tags, control }: {tags: { name: string, category: string, colour: string}[], control: Control<INewProject, any, INewProject>}) {
+export default function TagSelector({ tags }: {tags: { name: string, category: string, colour: string}[]}) {
     console.log(tags)
 
     const tagButtons = tags.map((t: { name: string, category: string, colour: string})=> {

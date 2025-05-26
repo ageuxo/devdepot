@@ -1,10 +1,9 @@
 'use server'
 
-import { DB, Project, Tag } from "kysely-codegen"
+import { DB, Project } from "kysely-codegen"
 import { db } from "./route"
-import { FieldName, FieldValues } from "react-hook-form"
-import { ExpressionBuilder, Selectable, SelectQueryBuilder, sql } from "kysely"
-import { jsonArrayFrom } from "kysely/helpers/mysql"
+import { FieldValues } from "react-hook-form"
+import { ExpressionBuilder, sql } from "kysely"
 
 export interface TagData {
     name: string,

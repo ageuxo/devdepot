@@ -7,7 +7,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { INewProject } from "./page";
 import styles from "@/components/form.module.css";
 
-export function NewProjectForm({ tags }) {
+export function NewProjectForm({ tags }: { tags: { name: string, category: string, colour: string }[] } ) {
 
     const onSubmit: SubmitHandler<INewProject> = async (formData) => {
         console.log(formData);
@@ -65,7 +65,7 @@ export function NewProjectForm({ tags }) {
                         {errors.description && <p role="alert" className={styles.error}>{errors.description.message}</p>}
                     </label>
                 </div>
-                <TagSelector tags={tags} control={control} />
+                <TagSelector tags={tags} />
                 <input className={styles.submit} type="submit" value={"Create"} />
             </form>
         </>
