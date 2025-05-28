@@ -2,7 +2,7 @@ import { UseFormRegister } from 'react-hook-form';
 import styles from './form.module.css';
 import { INewProject } from '@/app/new-project/page';
 
-export default function TagSelector({ tags, formRegister }: {tags: { id: number, name: string, category: string, colour: string}[], formRegister: UseFormRegister<INewProject> }) {
+export function TagSelector({ tags, formRegister }: {tags: { id: number, name: string, category: string, colour: string}[], formRegister: UseFormRegister<INewProject> }) {
 
     const tagButtons = tags.map((t: { id: number, name: string, category: string, colour: string})=> {
         return (

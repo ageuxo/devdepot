@@ -1,7 +1,7 @@
 'use client'
 
 import { SignInTab } from "@/components/account";
-import TagSelector from "@/components/form";
+import { TagSelector } from "@/components/form";
 import { authClient } from "@/lib/auth-client";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { INewProject } from "./page";
