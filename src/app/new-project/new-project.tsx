@@ -25,7 +25,11 @@ export function NewProjectForm({ tags }: { tags: { id: number, name: string, cat
         handleSubmit,
         watch,
         control
-    } = useForm<INewProject>();
+    } = useForm<INewProject>({
+        defaultValues: {
+            tags: []
+        }
+    });
 
     if (!session) {
         return (
@@ -65,7 +69,7 @@ export function NewProjectForm({ tags }: { tags: { id: number, name: string, cat
                         {errors.description && <p role="alert" className={styles.error}>{errors.description.message}</p>}
                     </label>
                 </div>
-                <TagSelector tags={tags} formRegister={register} />
+                <TagSelector tags={tags} formRegister={register} errors={errors} requireSelection={true} />
                 <input className={styles.submit} type="submit" value={"Create"} />
             </form>
         </>

@@ -61,7 +61,6 @@
     justify-content: flex-start;
     align-items: flex-start;
     background-color: var(--backplate-colour);
-    border: 1px solid gray;
 }
 
 .tag {
