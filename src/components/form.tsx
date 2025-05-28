@@ -7,8 +7,10 @@ export default function TagSelector({ tags, formRegister }: {tags: { id: number,
     const tagButtons = tags.map((t: { id: number, name: string, category: string, colour: string})=> {
         return (
             <label key={t.name} className={styles.tag} style={{backgroundColor: t.colour}} >
-                <input type='checkbox' value={t.name} {...formRegister(`tags`) } />
-                {t.name}
+                <input type='checkbox' value={ t.name} {...formRegister(`tags`) } />
+                <span className={styles.tagLabel} >
+                    {t.name}
+                </span>
             </label>
         );
     });
@@ -24,6 +26,3 @@ export default function TagSelector({ tags, formRegister }: {tags: { id: number,
         </div>
     );
 }
-
-
-

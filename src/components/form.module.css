@@ -60,16 +60,24 @@
     min-height: 10rem;
     justify-content: flex-start;
     align-items: flex-start;
-    border: 1px solid yellow;
+    background-color: var(--backplate-colour);
+    border: 1px solid gray;
 }
 
 .tag {
-    padding: 0 0.5rem 0rem;
+    padding: 0 0.5rem 0rem 0.25rem;
     margin: 0.1rem;
     border-radius: 0.25rem;
     text-transform: capitalize;
     text-shadow: 2px 2px 4px black;
     border: 0.2rem solid rgba(255, 255, 255, 0);
+    display: grid;
+    grid-template-columns: 1em auto;
+    gap: 0.5em;
+}
+
+.tagLabel {
+    text-shadow: 2px 2px 1px black;
 }
 
 .tag:has(:checked) {
