@@ -1,0 +1,41 @@
+.box {
+    min-width: 50%;
+    padding: 0.5rem;
+}
+
+.textBox {
+    min-width: 100%;
+    min-height: 100%;
+    background-color: var(--text-area-bg);
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    overflow-wrap: normal;
+    overflow-y: visible;
+    overflow-x: scroll;
+    resize: none;
+    scrollbar-color: var(--background) var(--backplate-colour);
+}
+
+.styled h1 {
+    font-size: var(--text-2xl);
+    line-height: var(--text-2xl--line-height);
+}
+
+.styled h2 {
+    font-size: var(--text-xl);
+    line-height: var(--text-xl--line-height);
+}
+
+.styled h3 {
+    font-size: var(--text-lg);
+    line-height: var(--text-lg--line-height);
+}
+
+.styled h4 {
+    font-size: var(--text-base);
+    line-height: var(--text-lg--line-height);
+}
+
+.styled hr {
+    margin: 0.5rem 0;
+}

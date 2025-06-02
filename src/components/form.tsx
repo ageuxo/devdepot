@@ -1,6 +1,8 @@
-import { FieldErrors, RegisterOptions, UseFormRegister } from 'react-hook-form';
+import { FieldErrors, RegisterOptions, UseFormRegister, UseFormWatch } from 'react-hook-form';
 import styles from './form.module.css';
+import mdStyles from './markdown.module.css'
 import { INewProject } from '@/app/new-project/page';
+import Markdown from 'react-markdown';
 
 export function TagSelector({ tags, formRegister, errors, requireSelection = false }: {tags: { id: number, name: string, category: string, colour: string}[], formRegister: UseFormRegister<INewProject>, errors: FieldErrors<INewProject>, requireSelection?: boolean }) {
 
@@ -32,6 +34,25 @@ export function TagSelector({ tags, formRegister, errors, requireSelection = fal
                 </div>
                 {errors.tags && <p role="alert" className={styles.error}>{errors.tags.message}</p>}
             </div>
+        </div>
+    );
+}
+
+export function MarkdownEditor({ formRegister, formWatch }: { formRegister: UseFormRegister<INewProject>, formWatch: UseFormWatch<INewProject> }) {
+    const input = formWatch('description');
+    return (
+        <div className={styles.box}>
+            <div className={mdStyles.box} >
+                Markdown: <br />
+                <textarea className={mdStyles.textBox} {...formRegister('description')} rows={input?.split('\n').length} />
+            </div>
+            <div className={[mdStyles.styled, mdStyles.box].join(" ")} >
+                Preview: <br />
+                <div className={mdStyles.textBox} >
+                    <Markdown>{input}</Markdown>
+                </div>
+            </div>
+
         </div>
     );
 }

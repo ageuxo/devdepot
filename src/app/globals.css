@@ -5,6 +5,7 @@
   --foreground: #ededed;
 
   --backplate-colour: rgba(25, 25, 25, 0.5);
+  --text-area-bg: rgba(102, 102, 102, 0.5);
 }
 
 @theme inline {

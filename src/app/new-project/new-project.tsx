@@ -1,7 +1,7 @@
 'use client'
 
 import { SignInTab } from "@/components/account";
-import { TagSelector } from "@/components/form";
+import { MarkdownEditor, TagSelector } from "@/components/form";
 import { authClient } from "@/lib/auth-client";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { INewProject } from "./page";
@@ -61,11 +61,7 @@ export function NewProjectForm({ tags }: { tags: { id: number, name: string, cat
                 <div className={styles.box}>
                     <label className={styles.label}>
                         Project Description:<br />
-                        <textarea className={errors.description ? styles.inputerr : styles.input} {...register("description",
-                            {
-                                required: "Please enter a description for your new project.",
-                                })}
-                        />
+                        <MarkdownEditor formRegister={register} formWatch={watch} />
                         {errors.description && <p role="alert" className={styles.error}>{errors.description.message}</p>}
                     </label>
                 </div>
