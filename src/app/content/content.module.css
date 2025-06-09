@@ -11,3 +11,7 @@
     padding: 0.25rem;
     border: 1px solid gray;
 }
+
+.imgContent {
+    max-width: 20rem;
+}
