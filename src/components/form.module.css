@@ -51,6 +51,11 @@
     margin: 0 1rem 0.1rem;
 }
 
+.description {
+    font-size: small;
+    margin-left: 0.5rem;
+}
+
 .tagSelectorBox {
     display: flex;
     padding: 0.5rem;
@@ -81,4 +86,18 @@
 
 .tag:has(:checked) {
     border: 0.2rem solid hsl(59, 91%, 46%);
+}
+
+.contentInput {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;
+    min-width: none;
+    max-width: none;
+}
+
+.contentInput span {
+    margin: auto;
+    align-self: center;
 }

@@ -1,0 +1,13 @@
+.list {
+    display: flex;
+    flex-direction: column;
+}
+
+.contentList {
+    background-color: var(--backplate-colour);
+    display: flex;
+    flex-direction: column;
+    margin: 0.25rem 0.25rem 0;
+    padding: 0.25rem;
+    border: 1px solid gray;
+}
