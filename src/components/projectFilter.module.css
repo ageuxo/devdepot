@@ -1,0 +1,31 @@
+
+.input {
+    border: 1px grey solid;
+    margin: 0.15rem;
+    padding: 0.25rem;
+}
+
+.search {
+    width: 80%;
+}
+
+.select:open {
+    color: var(--color-foreground);
+    background-color: var(--color-background);
+}
+
+.label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.footer {
+   display: flex;
+   justify-content: flex-end;
+}
+
+.footer input {
+    margin-left: 5rem;
+}
+
