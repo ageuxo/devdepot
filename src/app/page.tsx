@@ -1,7 +1,7 @@
 import { ProjectFilters } from "@/components/projectFilter";
 import { ProjectList } from "../components/projects";
 
-export default function Home() { // Make this use database
+export default function Home() {
   return (
     <>
       <main className="flex flex-col items-center padding-24">
