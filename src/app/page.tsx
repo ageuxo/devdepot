@@ -14,9 +14,9 @@ export default function Home() {
 function Projects() {
 
   return (
-    <div>
+    <>
       <ProjectFilters />
       <ProjectList />
-    </div>
+    </>
   );
 }

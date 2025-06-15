@@ -1,9 +1,8 @@
 'use server'
 
-import { DB, Project } from "kysely-codegen"
+import { DBFilter, filterQueryResolver } from "@/lib/KyselyFilters"
 import { db } from "./route"
-import { FieldValues } from "react-hook-form"
-import { ExpressionBuilder, sql } from "kysely"
+import { sql } from "kysely"
 
 export interface TagData {
     name: string,
@@ -11,55 +10,9 @@ export interface TagData {
     colour: string
 }
 
-const FilterCheckType = {
-    EQUAL: '=',
-    GREATER_THAN: '>',
-    LESS_THAN: '<',
-    IN_RANGE: 'in_range',
-} as const;
-type FilterCheck = typeof FilterCheckType[keyof typeof FilterCheckType];
+const aggregates = ['tags.']
 
-interface ColumnFilter<T extends FieldValues> {
-    column: any,
-    type: FilterCheck,
-    value: string | string[]
-}
-
-const GroupType = {
-    AND: 'and',
-    OR: 'or',
-    EMPTY: 'empty'
-} as const;
-type GroupType = typeof GroupType[keyof typeof GroupType];
-
-export interface DBFilter<T extends FieldValues> {
-    type: GroupType,
-    filters: ColumnFilter<T>[]
-}
-
-function groupQueryResolver<T extends FieldValues>(q: ExpressionBuilder<DB, "projects">, filters: ColumnFilter<T>[]) {
-    const ret = [];
-    for (const filter of filters) {
-        if (filter.type == FilterCheckType.IN_RANGE) {
-            ret.push(q(filter.column, 'in', filter.value));
-        } else {
-            ret.push(q(filter.column, filter.type, filter.value));
-        }
-    }
-    return ret;
-}
-
-function queryCombiner<T extends FieldValues>(q: ExpressionBuilder<DB, "projects">, dbFilter: DBFilter<T>) {
-    const {type, filters} = dbFilter;
-    const groupExpressions = groupQueryResolver(q, filters);
-    if (type == 'and') {
-        return q.and(groupExpressions);
-    } else {
-        return q.or(groupExpressions);
-    }
-}
-
-export async function getProjects(dbFilter: DBFilter<Project>) {
+export async function getProjects(dbFilter: DBFilter) {
     let query = db.selectFrom(['projects'])
     // join from user table when projects.createdBy = user.id
     .innerJoin('user', 'projects.createdBy', 'user.id')
@@ -71,11 +24,8 @@ export async function getProjects(dbFilter: DBFilter<Project>) {
     ])
     .select(sql<string>`JSON_ARRAYAGG(JSON_OBJECT("name", tags.name, "category", tags.category , "colour", tags.colour))`.as('tags'))
     
-
-    if (dbFilter.type != GroupType.EMPTY) {
-        query = query.where(q => queryCombiner(q, dbFilter));
-    }
-    return await query.execute();
+    query = filterQueryResolver(query, dbFilter, aggregates)
+    return query.execute();
 }
 
 const tagQuery = db
