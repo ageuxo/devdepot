@@ -11,31 +11,63 @@
     border-radius: 0.5rem;
     overflow-wrap: normal;
     overflow-y: visible;
-    overflow-x: scroll;
     resize: none;
     scrollbar-color: var(--background) var(--backplate-colour);
 }
 
 .styled h1 {
+    margin: 0.5rem 0 0.25rem;
     font-size: var(--text-2xl);
     line-height: var(--text-2xl--line-height);
+    font-weight: bold;
 }
 
 .styled h2 {
+    margin: 0.5rem 0 0.25rem;
     font-size: var(--text-xl);
     line-height: var(--text-xl--line-height);
+    font-weight: bold;
 }
 
 .styled h3 {
+    margin: 0.5rem 0 0.25rem;
     font-size: var(--text-lg);
     line-height: var(--text-lg--line-height);
+    font-weight: bold;
 }
 
 .styled h4 {
+    margin: 0.5rem 0 0.25rem;
     font-size: var(--text-base);
     line-height: var(--text-lg--line-height);
+    font-weight: bold;
 }
 
 .styled hr {
     margin: 0.5rem 0;
+}
+
+.styled p {
+    margin: 0.5rem 0.25rem;
+}
+
+.styled ol {
+    margin-left: 0.5rem;
+    list-style-type: decimal;
+    list-style-position: inside;
+}
+
+.styled ul {
+    margin-left: 0.5rem;
+    list-style-type: disc;
+    list-style-position: inside;
+}
+
+.styled a, .styled a:any-link {
+    text-decoration: underline;
+    color: #1782e6;
+}
+
+.styled a:visited {
+    color: #8917e6;
 }
