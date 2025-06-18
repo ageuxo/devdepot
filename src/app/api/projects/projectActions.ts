@@ -36,3 +36,16 @@ export async function getAllTags() {
     return await tagQuery.execute();
 }
 
+const allAuthorsWithProjectsQuery = db
+    .selectFrom('projects')
+    .innerJoin('user', 'projects.createdBy', 'user.id')
+    .select('user.name')
+    .distinct()
+    .compile();
+
+/**
+ *     Get the names of all authors with published projects.
+ */
+export async function getAllProjectsAuthorNames() {
+    return db.executeQuery(allAuthorsWithProjectsQuery);
+}
