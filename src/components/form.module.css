@@ -58,7 +58,6 @@
 
 .tagSelectorBox {
     display: flex;
-    padding: 0.5rem;
     flex-direction: column;
     flex-wrap: wrap;
     max-height: 30rem;
@@ -68,14 +67,54 @@
     background-color: var(--backplate-colour);
 }
 
+.tagSuggestorBox {
+    
+}
+
+.tagSuggestorDropdown {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    border: 1px solid gray;
+    width: 200px;
+    margin-left: 0.75rem;
+    margin-top: -0.75rem;
+}
+
+.tagSuggestorInput {
+    display: inline-block;
+}
+
+.tagSuggestorInput:focus-within .tagSuggestorDropdown {
+    display: flex;
+}
+
+.tagSuggestorDropdown label {
+    cursor: pointer;
+}
+
+.tagSuggestorSelected {
+    min-height: 2.2rem;
+    margin: 0 0.5rem;
+    background-color: var(--backplate-colour);
+}
+
+.tagSuggestorButton {
+    cursor: pointer;
+    width: 100%;
+}
+
+.clickable {
+    cursor: pointer;
+}
+
 .tag {
     padding: 0 0.5rem 0rem 0.25rem;
     margin: 0.1rem;
     border-radius: 0.25rem;
     text-transform: capitalize;
-    text-shadow: 2px 2px 4px black;
+    text-shadow: 2px 2px 1px black;
     border: 0.2rem solid rgba(255, 255, 255, 0);
-    display: grid;
     grid-template-columns: 1em auto;
     gap: 0.5em;
 }
