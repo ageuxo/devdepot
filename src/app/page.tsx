@@ -1,5 +1,6 @@
 import { ProjectFilters } from "@/components/projectFilter";
 import { ProjectList } from "../components/projects";
+import { getAllProjectsAuthorNames, getAllTags } from "./api/projects/projectActions";
 
 export default function Home() {
   return (
@@ -11,11 +12,13 @@ export default function Home() {
   );
 }
 
-function Projects() {
+async function Projects() {
+  const authors = (await getAllProjectsAuthorNames()).rows.map(author => author.name);
+  const tags = (await getAllTags())
 
   return (
     <>
-      <ProjectFilters />
+      <ProjectFilters authors={authors} tags={tags} />
       <ProjectList />
     </>
   );
