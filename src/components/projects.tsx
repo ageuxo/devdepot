@@ -6,6 +6,7 @@ import { getProjects, TagData } from "@/app/api/projects/projectActions";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { DBFilter } from "@/lib/KyselyFilters";
+import { SortDirection } from "./projectFilter";
 
 export function ProjectList() {
 
@@ -37,8 +38,15 @@ export function ProjectList() {
         filter.filters.push(tagFilters);
       }
     }
+    
+    // Sort direction
+    const direction = searchParams.get('direction');
+    let sortDir: SortDirection = "asc";
+    if (direction == 'desc') {
+      sortDir = 'desc';
+    }
 
-    getProjects(filter).then((data) => {
+    getProjects(filter, 'createdAt', sortDir).then((data) => {
       setProjects(data);
     });
 

@@ -9,12 +9,15 @@ import { useSearchParams } from "next/navigation";
 
 export interface IProjectFilters {
     search: string,
-    sort: 'newest' | 'oldest',
-    direction: 'asc' | 'desc',
+    sort: SortBy,
+    direction: SortDirection,
     author: string,
     tags: string[]
   }
 
+export type SortDirection = 'asc' | 'desc';
+export type SortBy = 'createdAt';
+  
 export function ProjectFilters({ authors, tags }: { authors: string[], tags: { id: number, name: string, category: string, colour: string}[] }) {
     const searchParams = useSearchParams();
     const params = new URLSearchParams(searchParams.toString());

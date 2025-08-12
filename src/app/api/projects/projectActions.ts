@@ -3,6 +3,7 @@
 import { DBFilter, filterQueryResolver } from "@/lib/KyselyFilters"
 import { db } from "./route"
 import { sql } from "kysely"
+import { SortBy, SortDirection } from "@/components/projectFilter"
 
 export interface TagData {
     name: string,
@@ -12,7 +13,7 @@ export interface TagData {
 
 const aggregates = ['tags.']
 
-export async function getProjects(dbFilter: DBFilter) {
+export async function getProjects(dbFilter: DBFilter, sortBy: SortBy, direction: SortDirection) {
     let query = db.selectFrom(['projects'])
     // join from user table when projects.createdBy = user.id
     .innerJoin('user', 'projects.createdBy', 'user.id')
@@ -23,6 +24,8 @@ export async function getProjects(dbFilter: DBFilter) {
         'user.name as createdByName',
     ])
     .select(sql<string>`JSON_ARRAYAGG(JSON_OBJECT("name", tags.name, "category", tags.category , "colour", tags.colour))`.as('tags'))
+    .limit(15)
+    .orderBy(sortBy, direction)
     
     query = filterQueryResolver(query, dbFilter, aggregates)
     return query.execute();
