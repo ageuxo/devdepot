@@ -91,8 +91,7 @@ export function ProjectFilters({ authors, tags }: { authors: string[], tags: { i
                 <label className={filter.label} >
                     Sort by:
                     <select defaultValue={getParamOrUndefined('sort')} className={[filter.select, filter.input].join(" ")} {...register("sort")}>
-                        <option value='newest' >Newest</option>
-                        <option value='oldest' >Oldest</option>
+                        <option value='createdAt' >Date created</option>
                     </select>
                 </label>
                 <label className={filter.label} >
