@@ -20,7 +20,7 @@ export function ProjectList() {
 
     const author = searchParams.get('author');
     if (author) { // if author selected
-      filter.filters.push({ type: 'condition', field: 'createdByName', op: 'eq', value: author });
+      filter.filters.push({ type: 'condition', field: 'user.name', op: 'eq', value: author });
     }
     
     const tags = searchParams.getAll('tag');
