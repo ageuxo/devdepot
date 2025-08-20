@@ -61,7 +61,7 @@ export function buildFilterExpression(filter: DBFilter): Expression<SqlBool> {
             // Build exists query
             return sql`EXISTS (
                 SELECT 1
-                FROM ${sql.ref(filter.from)} sub
+                FROM ${sql.ref(filter.from)}
                 ${filter.join ? sql`JOIN ${sql.ref(filter.join)} ON ${sql.raw(filter.on ?? "1=1" )}` : sql`` }
                 WHERE ${inner}
             )`;

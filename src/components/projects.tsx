@@ -26,13 +26,11 @@ export function ProjectList() {
     
     const tags = searchParams.getAll('tag');
     if (tags) { // if tags selected
-      if (tags.length == 1) {
-        filter.filters.push({ type: 'condition', field: 'tags.name', op: 'eq', value: tags[0] })
-      } else {
-        const tagFilters: DBFilter = { type: 'exists', from: 'projectTags pt', join: 'tags t', on: 'pt.tagId = t.id', filters: [] };
+      if (tags.length > 0) {
+        const tagFilters: DBFilter = { type: 'exists', from: 'projectTags', join: 'tags', on: 'projectTags.tagId = tags.id', filters: [] };
 
         for (const tag of tags) {
-          tagFilters.filters.push({ type: 'condition', field: 't.name', op: 'eq', value: tag })
+          tagFilters.filters.push({ type: 'condition', field: 'tags.name', op: 'eq', value: tag })
         }
 
         filter.filters.push(tagFilters);
