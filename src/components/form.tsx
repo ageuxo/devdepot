@@ -1,4 +1,4 @@
-import { FieldErrors, RegisterOptions, UseFormRegister, UseFormWatch } from 'react-hook-form';
+import { Control, FieldErrors, FieldValues, RegisterOptions, useController, UseFormRegister, UseFormWatch } from 'react-hook-form';
 import styles from './form.module.css';
 import mdStyles from './markdown.module.css'
 import { INewProject } from '@/app/new-project/page';
@@ -40,20 +40,36 @@ export function TagSelector({ tags, formRegister, errors, requireSelection = fal
     );
 }
 
-export function TagSuggestor({ tags, formRegister, errors }: { tags: { id: number, name: string, category: string, colour: string }[], formRegister: UseFormRegister<IProjectFilters>, errors: FieldErrors<INewProject> }) {
-    const [selectedTags, setSelected] = useState<{ id: number, name: string, category: string, colour: string }[]>([]);
+export function TagSuggestor({ tags, preSelected, formControl, errors }: { tags: { id: number, name: string, category: string, colour: string }[], preSelected: string[], formControl: Control<IProjectFilters>, errors: FieldErrors<IProjectFilters> }) {
+    const { field: selected } = useController({control: formControl, name: 'tags'}); // useController for selected tags?
+    // Initialise selectedTags
+    const foundTags: { id: number; name: string; category: string; colour: string; }[] = [];
+    for (const selected of preSelected) {
+        const found = tags.find(t => t.name == selected);
+        if (found) {
+            foundTags.push(found);
+        }
+    }
+    const [selectedTags, setSelected] = useState<{ id: number, name: string, category: string, colour: string }[]>([...foundTags]);
+    console.log("Init ",tags, preSelected);
 
     function addSelectedTag(tag: { id: number, name: string, category: string, colour: string }) {
         setSelected(s => {
             if (s.find(t => t.id == tag.id)) { // If tag already selected, return copy self
                 return [...s];
             }
-            return [...s, tag];
+            const newSelected = [...s, tag];
+            selected.onChange(newSelected);
+            return newSelected;
         });
     }
 
     function removeSelectedTag(tag: { id: number, name: string, category: string, colour: string }) {
-        setSelected(s => [...s.filter(t => t.id != tag.id)])
+        setSelected(s => {
+            const newSelected = [...s.filter(t => t.id != tag.id)]
+            selected.onChange(newSelected);
+            return newSelected;
+        });
     }
 
     function clickableTag(tag: { id: number, name: string, category: string, colour: string }, onClick: MouseEventHandler, idPrefix: string) {

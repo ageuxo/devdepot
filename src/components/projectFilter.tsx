@@ -6,13 +6,14 @@ import filter from "./projectFilter.module.css";
 import { useState } from "react";
 import { TagSuggestor } from "./form";
 import { useSearchParams } from "next/navigation";
+import { Tag } from "kysely-codegen";
 
 export interface IProjectFilters {
     search: string,
     sort: SortBy,
     direction: SortDirection,
     author: string,
-    tags: string[]
+    tags: Tag[]
   }
 
 export type SortDirection = 'asc' | 'desc';
@@ -44,7 +45,7 @@ export function ProjectFilters({ authors, tags }: { authors: string[], tags: { i
         if (tags) { // if tags selected
             newParams.delete('tag');
             for (const tag of tags) {
-                newParams.append('tag', tag);
+                newParams.append('tag', tag.name);
             }
         }
 
@@ -60,7 +61,6 @@ export function ProjectFilters({ authors, tags }: { authors: string[], tags: { i
         register,
         formState: { errors },
         handleSubmit,
-        watch,
         control
     } = useForm<IProjectFilters>();
 
@@ -74,18 +74,17 @@ export function ProjectFilters({ authors, tags }: { authors: string[], tags: { i
             </label>
             <>
                 <button type='button' onClick={()=>setIsExpanded(!isExpanded)}>{isExpanded ? 'Less filters' : 'More filters'}</button>
-                {isExpanded &&
-                    <div className={forms.box} >
-                        <label className={filter.label} >
-                            Author:
-                            <select defaultValue={getParamOrUndefined('author')} className={[filter.select, filter.input].join(" ")} {...register("author")}>
-                                <option value='' ></option>
-                                {authors && authors.length > 0 && authors.map(a=> (<option key={a} value={a}>{a}</option>) )}
-                            </select>
-                        </label>
-                        <TagSuggestor tags={tags} formRegister={register} errors={errors} />
-                    </div>
-                }
+                <div className={forms.box} hidden={!isExpanded} >
+                    <label className={filter.label} >
+                        Author:
+                        <select defaultValue={getParamOrUndefined('author')} className={[filter.select, filter.input].join(" ")} {...register("author")}>
+                            <option value='' ></option>
+                            {authors && authors.length > 0 && authors.map(a=> (<option key={a} value={a}>{a}</option>) )}
+                        </select>
+                    </label>
+                    <TagSuggestor tags={tags} formControl={control} errors={errors} preSelected={params.getAll('tag')} />
+                </div>
+                
             </>
             <div className={filter.footer} >
                 <label className={filter.label} >
