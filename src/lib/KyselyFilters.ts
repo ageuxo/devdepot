@@ -5,7 +5,7 @@ export type DBFilter =
     | { type: 'or', filters: DBFilter[] }
     | { type: 'not', filter: DBFilter }
     | { type: 'condition', field: string, op: 'eq' | 'like' | 'in' | 'gte' | 'lte', value: any }
-
+    | { type: 'exists', from: string, join?: string, on?: string, filters: DBFilter[] }
 
 export function filterQueryResolver<DB, TB extends keyof DB, O>(qb: SelectQueryBuilder<DB, TB, O>, filter: DBFilter, aggregates: string[]): SelectQueryBuilder<DB, TB, O> {
     const expr = buildFilterExpression(filter);
@@ -49,6 +49,23 @@ export function buildFilterExpression(filter: DBFilter): Expression<SqlBool> {
             }) as Expression<SqlBool>;
 
         }
+
+        case "exists": {
+            // Build inner subquery
+            const inner = filter.filters.length > 0
+            ? filter.filters.map(f => buildFilterExpression(f)).reduce((acc, expr)=>
+                    acc ? sql`${acc} AND ${expr}` : expr
+                )
+            : sql`1=1` // if empty, return a filter that always returns true
+
+            // Build exists query
+            return sql`EXISTS (
+                SELECT 1
+                FROM ${sql.ref(filter.from)} sub
+                ${filter.join ? sql`JOIN ${sql.ref(filter.join)} ON ${sql.raw(filter.on ?? "1=1" )}` : sql`` }
+                WHERE ${inner}
+            )`;
+        }
     }
 }
 
@@ -61,6 +78,8 @@ export function isAggregateFilter(filter: DBFilter, aggregates: string[]): boole
         case "and":
         case "or":
             return filter.filters.some(f => isAggregateFilter(f, aggregates));
+        case "exists":
+            return false;
     }
 }
 
