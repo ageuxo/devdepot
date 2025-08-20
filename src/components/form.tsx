@@ -51,7 +51,6 @@ export function TagSuggestor({ tags, preSelected, formControl, errors }: { tags:
         }
     }
     const [selectedTags, setSelected] = useState<{ id: number, name: string, category: string, colour: string }[]>([...foundTags]);
-    console.log("Init ",tags, preSelected);
 
     function addSelectedTag(tag: { id: number, name: string, category: string, colour: string }) {
         setSelected(s => {
