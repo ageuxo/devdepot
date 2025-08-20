@@ -29,10 +29,10 @@ export function ProjectList() {
       if (tags.length == 1) {
         filter.filters.push({ type: 'condition', field: 'tags.name', op: 'eq', value: tags[0] })
       } else {
-        const tagFilters: DBFilter = { type: 'and', filters: [] };
+        const tagFilters: DBFilter = { type: 'exists', from: 'projectTags pt', join: 'tags t', on: 'pt.tagId = t.id', filters: [] };
 
         for (const tag of tags) {
-          tagFilters.filters.push({ type: 'condition', field: 'tags.name', op: 'eq', value: tag })
+          tagFilters.filters.push({ type: 'condition', field: 't.name', op: 'eq', value: tag })
         }
 
         filter.filters.push(tagFilters);
