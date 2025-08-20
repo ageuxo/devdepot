@@ -11,7 +11,7 @@ export interface TagData {
     colour: string
 }
 
-const aggregates = ['tags.']
+const aggregates: string[] = [];
 
 export async function getProjects(dbFilter: DBFilter, sortBy: SortBy, direction: SortDirection) {
     let query = db.selectFrom(['projects'])
@@ -24,10 +24,10 @@ export async function getProjects(dbFilter: DBFilter, sortBy: SortBy, direction:
         'user.name as createdByName',
     ])
     .select(sql<string>`JSON_ARRAYAGG(JSON_OBJECT("name", tags.name, "category", tags.category , "colour", tags.colour))`.as('tags'))
-    .limit(15)
+    .groupBy("projects.id")
     .orderBy(sortBy, direction)
     
-    query = filterQueryResolver(query, dbFilter, aggregates)
+    query = filterQueryResolver(query, dbFilter, aggregates);
     return query.execute();
 }
 
