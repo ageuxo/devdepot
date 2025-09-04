@@ -93,7 +93,6 @@ export function NewProjectForm({ tags }: { tags: { id: number, name: string, cat
                 </div>
                 <TagSelector tags={tags} formRegister={register} errors={errors} requireSelection={true} />
                 <input className={styles.submit} type="submit" value={"Create"} />
-                <button type="button" onClick={debugSetModalResultSuccess}>debug</button>
             </form>
         </>
 
