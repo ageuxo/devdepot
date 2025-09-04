@@ -6,12 +6,36 @@ import { authClient } from "@/lib/auth-client";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { INewProject } from "./page";
 import styles from "@/components/form.module.css";
+import modalStyles from "@/components/dialogModal.module.css";
+import { createProject, NewProjectResult } from "./actions";
+import { MouseEventHandler, useRef, useState } from "react";
+import Link from "next/link";
 
 export function NewProjectForm({ tags }: { tags: { id: number, name: string, category: string, colour: string }[] } ) {
 
+    const modalRef = useRef<HTMLDialogElement | null>(null);
+    const [result, setResult] = useState<NewProjectResult | undefined>();
+
+    function openModal() {
+        modalRef.current?.showModal();
+    }
+
+    function debugSetModalResultSuccess() {
+        setResult({ status: "success", id: 2, name: "debug modal example"});
+        openModal();
+    }
+
+    function closeModal() {
+        modalRef.current?.close();
+    }
+
     const onSubmit: SubmitHandler<INewProject> = async (formData) => {
-        console.log(formData);
-        /* createProject(formData) */
+        const foundTags = formData.tags.map(name => tags.find(tag => tag.name == name)).filter(t => t != undefined);
+        const projectResult = await createProject({ name: formData.name, description: formData.description, tags: foundTags });
+        if (projectResult) {
+            setResult(projectResult);
+            openModal();
+        }
     }
 
     const {
@@ -23,9 +47,7 @@ export function NewProjectForm({ tags }: { tags: { id: number, name: string, cat
         register,
         formState: { errors },
         handleSubmit,
-        watch,
-        control
-    } = useForm<INewProject>({
+        watch    } = useForm<INewProject>({
         defaultValues: {
             tags: []
         }
@@ -43,8 +65,12 @@ export function NewProjectForm({ tags }: { tags: { id: number, name: string, cat
         )
     }
 
+
     return (
         <>
+            <dialog ref={modalRef} className={modalStyles.dialog} >
+                <ResultDisplay result={result} onClick={closeModal}  />
+            </dialog>
             <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
                 <h1 className={styles.title}>Create a new project</h1>
                 <div className={styles.box}>
@@ -67,8 +93,32 @@ export function NewProjectForm({ tags }: { tags: { id: number, name: string, cat
                 </div>
                 <TagSelector tags={tags} formRegister={register} errors={errors} requireSelection={true} />
                 <input className={styles.submit} type="submit" value={"Create"} />
+                <button type="button" onClick={debugSetModalResultSuccess}>debug</button>
             </form>
         </>
 
     );
+}
+
+function ResultDisplay({ result, onClick }: { result: NewProjectResult | undefined, onClick: MouseEventHandler<HTMLButtonElement> }) {
+    if (!result) {
+        return (
+            <div className={modalStyles.modal} >
+                <p role="alert" className={styles.error}>An unknown error has occured, please try again later.</p>
+                <button autoFocus type="button" onClick={onClick} >Close</button>
+            </div>
+        );
+    }
+    return (
+        <div className={modalStyles.modal}>
+            { result.status == 'success'
+                ?   <p>Project created successfully: <Link href={`/project/${result.id}`}>{result.name}</Link> </p>
+                :   (<>
+                            <p role="alert" className={styles.error}>An error occurred while creating project, please try again later...</p>
+                            <p role="alert" className={styles.error}>Reason: {result.msg} </p>
+                            <button autoFocus type="button" onClick={onClick} >Close</button>
+                    </>)
+            }
+        </div>
+    )
 }

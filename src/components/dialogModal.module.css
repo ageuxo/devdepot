@@ -1,0 +1,28 @@
+.dialog {
+    background-color: var(--color-background);
+    margin: auto;
+}
+
+.dialog::backdrop {
+    background-color: var(--backplate-colour);
+}
+
+.modal {
+    display: flex;
+    flex-direction: column;
+    color: var(--color-foreground);
+    margin: auto;
+    padding: 1em 1em;
+
+}
+
+.modal button {
+    background-color: var(--backplate-colour);
+    border: var(--color-foreground) solid;
+    margin-top: 1em;
+}
+
+.modal a {
+    color: var(--color-blue-500);
+    text-decoration: underline;
+}
