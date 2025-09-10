@@ -96,8 +96,8 @@ export function ProjectFilters({ authors, tags }: { authors: string[], tags: { i
                 <label className={filter.label} >
                     Direction:
                     <select defaultValue={getParamOrUndefined('direction')} className={[filter.select, filter.input].join(" ")} {...register("direction")}>
-                        <option value='desc' >Descending</option>
                         <option value='asc' >Ascending</option>
+                        <option value='desc' >Descending</option>
                     </select>
                 </label>
                 <input value="Apply filter" type="submit" className={[filter.input].join(" ")} />
