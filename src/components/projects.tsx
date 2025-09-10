@@ -27,13 +27,24 @@ export function ProjectList() {
     const tags = searchParams.getAll('tag');
     if (tags) { // if tags selected
       if (tags.length > 0) {
-        const tagFilters: DBFilter = { type: 'exists', from: 'projectTags', join: { table:'tags', on: 'projectTags.tagId = tags.id'}, filters: [] };
+        const tagHolder: DBFilter = { type: 'and', filters: [] };
 
         for (const tag of tags) {
-          tagFilters.filters.push({ type: 'condition', field: 'tags.name', op: 'eq', value: tag })
+          const tagFilter: DBFilter = {
+            type: 'exists',
+            from: 'projectTags',
+            join: { table: 'tags', on: 'projectTags.tagId = tags.id'},
+            correlate: [
+              { outer: "projects.id", inner: "projectTags.projectId" }
+            ],
+            filters: [
+              { type: 'condition', field: 'tags.name', op: 'eq', value: tag }
+            ]
+          };
+          tagHolder.filters.push(tagFilter)
         }
 
-        filter.filters.push(tagFilters);
+        filter.filters.push(tagHolder);
       }
     }
     
@@ -44,6 +55,7 @@ export function ProjectList() {
       sortDir = 'desc';
     }
 
+    console.log(JSON.stringify(filter))
     getProjects(filter, 'createdAt', sortDir).then((data) => {
       setProjects(data);
     });

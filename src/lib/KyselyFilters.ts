@@ -5,7 +5,7 @@ export type DBFilter =
     | { type: 'or', filters: DBFilter[] }
     | { type: 'not', filter: DBFilter }
     | { type: 'condition', field: string, op: 'eq' | 'like' | 'in' | 'gte' | 'lte', value: any }
-    | { type: 'exists', from: string, join?: { table:string, on: string }, filters: DBFilter[] }
+    | { type: 'exists', from: string, join?: { table: string, on: string }, correlate?: { outer: string, inner: string }[], filters: DBFilter[] }
 
 export function filterQueryResolver<DB, TB extends keyof DB, O>(qb: SelectQueryBuilder<DB, TB, O>, filter: DBFilter, aggregates: string[]): SelectQueryBuilder<DB, TB, O> {
     const expr = buildFilterExpression(filter);
@@ -58,12 +58,21 @@ export function buildFilterExpression(filter: DBFilter): Expression<SqlBool> {
                 )
             : sql`1=1` // if empty, return a filter that always returns true
 
+            // Correlate inner and outer fields
+            const correlation = filter.correlate?.map(c => 
+                sql`${sql.ref(c.inner)} = ${sql.ref(c.outer)}`
+            ) ?? [];
+
+            const whereExpr = correlation.length > 0
+                ? correlation.reduce((acc, expr) => sql`${acc} AND ${expr}`, inner)
+                : inner;
+
             // Build exists query
             return sql`EXISTS (
                 SELECT 1
                 FROM ${sql.ref(filter.from)}
                 ${filter.join ? sql`JOIN ${sql.ref(filter.join.table)} ON ${sql.raw(filter.join.on)}` : sql`` }
-                WHERE ${inner}
+                WHERE ${whereExpr}
             )`;
         }
     }
