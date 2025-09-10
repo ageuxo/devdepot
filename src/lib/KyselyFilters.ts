@@ -5,7 +5,7 @@ export type DBFilter =
     | { type: 'or', filters: DBFilter[] }
     | { type: 'not', filter: DBFilter }
     | { type: 'condition', field: string, op: 'eq' | 'like' | 'in' | 'gte' | 'lte', value: any }
-    | { type: 'exists', from: string, join?: string, on?: string, filters: DBFilter[] }
+    | { type: 'exists', from: string, join?: { table:string, on: string }, filters: DBFilter[] }
 
 export function filterQueryResolver<DB, TB extends keyof DB, O>(qb: SelectQueryBuilder<DB, TB, O>, filter: DBFilter, aggregates: string[]): SelectQueryBuilder<DB, TB, O> {
     const expr = buildFilterExpression(filter);
@@ -62,7 +62,7 @@ export function buildFilterExpression(filter: DBFilter): Expression<SqlBool> {
             return sql`EXISTS (
                 SELECT 1
                 FROM ${sql.ref(filter.from)}
-                ${filter.join ? sql`JOIN ${sql.ref(filter.join)} ON ${sql.raw(filter.on ?? "1=1" )}` : sql`` }
+                ${filter.join ? sql`JOIN ${sql.ref(filter.join.table)} ON ${sql.raw(filter.join.on)}` : sql`` }
                 WHERE ${inner}
             )`;
         }

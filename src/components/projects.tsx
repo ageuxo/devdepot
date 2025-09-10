@@ -27,7 +27,7 @@ export function ProjectList() {
     const tags = searchParams.getAll('tag');
     if (tags) { // if tags selected
       if (tags.length > 0) {
-        const tagFilters: DBFilter = { type: 'exists', from: 'projectTags', join: 'tags', on: 'projectTags.tagId = tags.id', filters: [] };
+        const tagFilters: DBFilter = { type: 'exists', from: 'projectTags', join: { table:'tags', on: 'projectTags.tagId = tags.id'}, filters: [] };
 
         for (const tag of tags) {
           tagFilters.filters.push({ type: 'condition', field: 'tags.name', op: 'eq', value: tag })
